@@ -24,9 +24,31 @@
 		position:absolute;
 		left:0;
 		right:0;
-		margin-left: 65%;
+		margin-left: 55%;
 		margin-top: 10%;
 	}
+	#code{
+		width:480px;
+		height:200px;
+		display:block;
+		position:absolute;
+		left: 0;
+		right: 0;
+		margin-left:27%;
+		margin-top: 5%;
+		color: green;
+	}
+	button{
+		font-size: 20px;
+		background:none;
+		color: green;
+		border: none;
+	}
+	button:hover{
+		background:green;
+		color: black;
+	}
+	
 </style>
 <head>
 	<meta charset="utf-8" />
@@ -41,17 +63,20 @@
 	
 		Get a real browser!
 	</canvas>
+	<p id="code">Begin Hack//:<br></p>
 	<section id="buttons">
 		
-		<button id="tick1">Increase hacks per tick</button>
+		<button id="tick1">>Increase hacks per tick 10</button>
 		<br>
-		<button id="speed1">Increase tick speed</button>
+		<button id="speed1">>Increase tick speed 10</button>
 		
 	</section>
 	<section id="audioControls">
 		<audio id="bgAudio" src="media/background.mp3" controls loop></audio>
 		<audio id="effectAudio" controls></audio>
 	</section>
+	
+	<input value='sampleCode/sample01.txt' id="sampleCode" type="file"></file>
 	<script src='js/keys.js'></script>
 	<script src='js/utilities.js'></script>
 	<script src='js/loader.js'></script>

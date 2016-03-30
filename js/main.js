@@ -17,6 +17,7 @@ var app = app || {};
  
  */
 app.main = {
+	
 	//  properties
     WIDTH : 640, 
     HEIGHT: 480,
@@ -24,9 +25,12 @@ app.main = {
     ctx: undefined,
    	lastTime: 0, // used by calculateDeltaTime() 
     debug: false,
+	code: undefined,
+	file: undefined,
 	reader: undefined,
-	code: "",
 	hp: 0,
+	lasthp: 0,
+	totalhp: 0,
 	increment: 0,
 	tickCount: 0,
 	tickCountTop: 60,
@@ -45,42 +49,39 @@ app.main = {
 		this.canvas.onmousedown = this.doMousedown.bind(this);
 		document.getElementById("tick1").addEventListener("click", function(){
 			app.main.upgrade("tick1");
-			document.getElementById("tick1").innerHTML = "Increase hacks per tick " + app.main.cost.increment1;
-		})
+			document.getElementById("tick1").innerHTML = ">Increase hacks per tick " + app.main.cost.increment1;
+		});
 		document.getElementById("speed1").addEventListener("click", function(){
 			app.main.upgrade("speed1");
-			document.getElementById("speed1").innerHTML = "Increase tick speed " + app.main.cost.speed1;
-		})
-		//var file = new File("sample01.txt",);
-		//reader = new FileReader(file);
-		//reader.read(code);
-		//console.log(code);
-
+			document.getElementById("speed1").innerHTML = ">Increase tick speed " + app.main.cost.speed1;
+		});
+		this.readTextFile();
 		
 		this.update();
 	},
 	
 
 	
-	/*
-	readTextFile : function(file)
-		{
-		var rawFile = new XMLHttpRequest();
-		rawFile.open("GET", file, false);
-		rawFile.onreadystatechange = function ()
-		{
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status == 0)
-            {
-                var allText = rawFile.responseText;
-				this.ctx.fillText(allText, 10, 10);
-                alert(allText);
-            }
-        }
+
+	readTextFile : function(){
+		var fileInput = document.getElementById("sampleCode");
+		
+
+		var textType = /text.*/;
+		var ifile = fileInput.files[0];
+		
+		if (ifile.type.match(textType)) {
+			
+			this.reader = new FileReader();
+
+			this.reader.onload = function(e) {
+				app.main.code = app.main.reader.result;
+				console.log(app.main.code);
+			}
 		}
-    rawFile.send(null);
-	},*/
+			this.reader.readAsText(ifile);	
+	},
+	
 	upgrade : function(type){
 		if (type == "tick1"){
 			this.hp -= this.cost.increment1;
@@ -105,25 +106,30 @@ app.main = {
 			this.tickCount = 0;
 			
 		}
-		console.log(this.tickCount + "/" + this.tickCountTop);
+		//console.log(this.tickCount + "/" + this.tickCountTop);
 		this.tickCount++;
 		this.animationID = requestAnimationFrame(this.update.bind(this));
 		this.clear();
 		this.drawHud();
-		//this.readTextFile("..\sampleCode\sample01.txt");
 	},
 	
 	tick : function(){
 		this.hp += this.increment;
+		this.totalhp += this.increment;
 	},
 	
 	drawHud : function(){
 		this.ctx.save();
 		this.ctx.font = "30px Impact";
-		//this.ctx.fillStyle = "green";
 		this.ctx.fillStyle = 'rgba(0,255,0,1)';
 		this.ctx.fillText(this.hp, 250, 50);
 		this.ctx.restore();
+		if (this.lasthp != this.totalhp){
+			for (var i = this.lasthp; i<this.totalhp; i++){ 
+			document.getElementById("code").innerHTML += this.code[i];
+			}
+		}
+		this.lasthp = this.totalhp
 	},
 	
 	clear : function(){
