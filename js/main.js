@@ -28,6 +28,7 @@ app.main = {
 	code: undefined,
 	file: undefined,
 	reader: undefined,
+	codeArray: ["Begin Hack//:"],
 	hp: 0,
 	lasthp: 0,
 	totalhp: 0,
@@ -47,51 +48,45 @@ app.main = {
 		this.canvas.height = this.HEIGHT;
 		this.ctx = this.canvas.getContext('2d');
 		this.canvas.onmousedown = this.doMousedown.bind(this);
+		this.code = document.getElementById("sampleCode").textContent;
+		
+		//making buttons
+		var upgrades = document.querySelectorAll(".upgrade");
+		for (var i = 0; i<upgrades.length; ++i){
+			upgrades[i].addEventListener("click", function(){
+				app.main.upgrade(this);
+			});
+		};
+		console.log(upgrades.length);
+		
+		/*
 		document.getElementById("tick1").addEventListener("click", function(){
 			app.main.upgrade("tick1");
 			document.getElementById("tick1").innerHTML = ">Increase hacks per tick " + app.main.cost.increment1;
 		});
 		document.getElementById("speed1").addEventListener("click", function(){
+			console.log(this.id);
 			app.main.upgrade("speed1");
 			document.getElementById("speed1").innerHTML = ">Increase tick speed " + app.main.cost.speed1;
 		});
-		this.readTextFile();
+		*/
 		
 		this.update();
 	},
 	
-
-	
-
-	readTextFile : function(){
-		var fileInput = document.getElementById("sampleCode");
-		
-
-		var textType = /text.*/;
-		var ifile = fileInput.files[0];
-		
-		if (ifile.type.match(textType)) {
-			
-			this.reader = new FileReader();
-
-			this.reader.onload = function(e) {
-				app.main.code = app.main.reader.result;
-				console.log(app.main.code);
-			}
-		}
-			this.reader.readAsText(ifile);	
-	},
 	
 	upgrade : function(type){
-		if (type == "tick1"){
+		if (type.id == "tick1"){
 			this.hp -= this.cost.increment1;
 			this.increment++;
 			this.cost.increment1 += this.cost.increment1;
+			type.innerHTML = ">Increase hacks per tick " + this.cost.increment1;
 		}
-		if (type == "speed1"){
+		if (type.id == "speed1"){
 			this.hp -= this.cost.speed1;
 			this.tickCountTop--;
 			this.cost.speed1 += this.cost.speed1;
+			type.innerHTML = ">Increase tick speed " + this.cost.speed1;
 		}
 	},
 	
@@ -124,12 +119,24 @@ app.main = {
 		this.ctx.fillStyle = 'rgba(0,255,0,1)';
 		this.ctx.fillText(this.hp, 250, 50);
 		this.ctx.restore();
+		
+				
 		if (this.lasthp != this.totalhp){
 			for (var i = this.lasthp; i<this.totalhp; i++){ 
-			document.getElementById("code").innerHTML += this.code[i];
+				document.getElementById("code").textContent += this.code[i];
+				this.codeArray.push(this.code[i]);
+			//should scroll at around 2000
+			if (this.totalhp >= 2000){
+				this.codeArray.shift();
+				
+			}
+				var currentCode = this.codeArray.join("");
+				document.getElementById("code").textContent = currentCode;
 			}
 		}
 		this.lasthp = this.totalhp
+		
+		
 	},
 	
 	clear : function(){
