@@ -26,7 +26,6 @@ app.main = {
    	lastTime: 0, // used by calculateDeltaTime() 
     debug: false,
 	code: undefined,
-	file: undefined,
 	reader: undefined,
 	codeArray: ["Begin Hack//:"],
 	security: 100,
@@ -37,9 +36,11 @@ app.main = {
 	increment: 0,
 	tickCount: 0,
 	tickCountTop: 60,
+	tickMult: 1,
+	typeMult: 1,
 	upgrades : [],
-	cost:({increment1: 10, increment2: 50, speed1: 10, finalHack: 1000000000, 
-	security1: 50,
+	cost:({increment1: 10, increment2: 50, speed1: 10, speed2: 5000, finalHack: 1000000000, 
+	security1: 50, security2: 200, type1: 10,
 		
 	}),
 
@@ -62,49 +63,50 @@ app.main = {
 			});
 		};
 		
-		/*
-		document.getElementById("tick1").addEventListener("click", function(){
-			app.main.upgrade("tick1");
-			document.getElementById("tick1").innerHTML = ">Increase hacks per tick " + app.main.cost.increment1;
-		});
-		document.getElementById("speed1").addEventListener("click", function(){
-			console.log(this.id);
-			app.main.upgrade("speed1");
-			document.getElementById("speed1").innerHTML = ">Increase tick speed " + app.main.cost.speed1;
-		});
-		*/
 		
 		this.update();
 	},
 	
 	
 	upgrade : function(type){
-		if (type.id == "tick1"){
+		if (type.id == "type1" && this.hp >= this.cost.type1){
+			this.hp -= this.cost.type1;
+			this.typeMult++;
+			this.cost.type1 += this.cost.type1 * 5;
+			type.innerHTML = ">Open CMD prompt  " + this.cost.type1;
+		}
+		if (type.id == "tick1" && this.hp >= this.cost.increment1){
 			this.hp -= this.cost.increment1;
 			this.increment++;
 			this.cost.increment1 += this.cost.increment1;
 			type.innerHTML = ">Run Script " + this.cost.increment1;
 		}
-		if (type.id == "tick2"){
+		if (type.id == "tick2"  && this.hp >= this.cost.increment2){
 			this.hp -= this.cost.increment2;
 			this.increment+= 5;
 			this.cost.increment2 += this.cost.increment2;
 			type.innerHTML = ">Setup Bot " + this.cost.increment2;
 		}
-		if (type.id == "speed1"){
+		if (type.id == "speed1"  && this.hp >= this.cost.speed1){
 			this.hp -= this.cost.speed1;
 			this.tickCountTop--;
 			this.cost.speed1 += this.cost.speed1;
 			type.innerHTML = ">Increase RAM " + this.cost.speed1;
 		}
-		if (type.id == "security1"){
+		if (type.id == "speed2" && this.hp >= this.cost.speed2){
+			this.hp -= this.cost.speed2;
+			this.tickMult++;
+			this.cost.speed2 += this.cost.speed2 * 5;
+			type.innerHTML = ">Install Extra Processor " + this.cost.speed2;
+		}
+		if (type.id == "security1" && this.hp >= this.cost.security1){
 			this.hp -= this.cost.security1;
 			this.security+=100;
 			this.cost.security1 += this.cost.security1;
 			type.innerHTML = ">Go Incognito " + this.cost.security1;
 		}
-		if (type.id == "security2"){
-			this.hp -= this.cost.security1;
+		if (type.id == "security2" && this.hp >= this.cost.security2){
+			this.hp -= this.cost.security2;
 			this.security+=200;
 			this.cost.security2 += this.cost.security2;
 			type.innerHTML = ">Setup Proxy " + this.cost.security2;
@@ -115,29 +117,44 @@ app.main = {
 	},
 	
 	showButton : function(type){
+		if (type.id == "type1"){
+			if (this.hp < this.cost.type1){type.style.color = "#009933";}
+			else{type.style.color = "lime";}
+		}
 		if (type.id == "tick1"){
-			if (this.hp < this.cost.increment1){type.style.display = "none";}
-			else{type.style.display = "block";}
+			if (this.hp < this.cost.increment1){type.style.color = "#009933";}
+			else{type.style.color = "lime";}
 		}
 		if (type.id == "tick2"){
-			if (this.hp < this.cost.increment2){type.style.display = "none";}
+			if (this.hp < this.cost.increment2){type.style.color = "#009933";}
+			else{type.style.color = "lime";}
+			
+			if (this.totalhp < 200){type.style.display = "none";}
 			else{type.style.display = "block";}
 		}
 		if (type.id == "security1"){
-			if (this.hp < this.cost.security1 || this.counterHack <= 5){type.style.display = "none";}
+			if (this.hp < this.cost.security1){type.style.color = "#990000";}
+			else{type.style.color = "#cc0000";}
+			if (this.counterHack < 5){type.style.display = "none";}
 			else{type.style.display = "block";}
-			if (this.counterHack < 0){type.style.display = "none";}
 		}
 		if (type.id == "security2"){
-			if (this.hp < this.cost.security2 || this.counterHack <= 5){type.style.display = "none";}
-			else{type.style.display = "block";
-			
-}
-			
+			if (this.hp < this.cost.security2){type.style.color = "#990000";}
+			else{type.style.color = "#cc0000";}
+			if (this.counterHack < 5){type.style.display = "none";}
+			else{type.style.display = "block";}
 		}
 		
 		if (type.id == "speed1"){
-			if (this.hp < this.cost.speed1){type.style.display = "none";}
+			if (this.hp < this.cost.speed1){type.style.color = "#009933";}
+			else{type.style.color = "lime";}
+			if (this.totalhp < 50){type.style.display = "none";}
+			else{type.style.display = "block";}
+		}
+		if (type.id == "speed2"){
+			if (this.hp < this.cost.speed2){type.style.color = "#009933";}
+			else{type.style.color = "lime";}
+			if (this.totalhp < this.cost.speed2){type.style.display = "none";}
 			else{type.style.display = "block";}
 		}
 		
@@ -155,9 +172,10 @@ app.main = {
 	update : function(){
 		
 		if (this.tickCount >= this.tickCountTop){
-			this.tick();
+			for (var i = 0; i< this.tickMult; i++){
+				this.tick();
+			}
 			this.tickCount = 0;
-			
 		}
 		//console.log(this.tickCount + "/" + this.tickCountTop);
 		this.tickCount++;
@@ -188,7 +206,7 @@ app.main = {
 				document.getElementById("code").textContent += this.code[i];
 				this.codeArray.push(this.code[i]);
 			//should scroll at around 2000
-			if (this.totalhp >= 2000){
+			if (this.totalhp >= 2300){
 				this.codeArray.shift();
 				
 			}
@@ -198,6 +216,7 @@ app.main = {
 		}
 		this.lasthp = this.totalhp
 		
+		if(this.totalhp > this.code.length){this.code = this.code + this.code}
 		
 		//counterhack
 		this.ctx.save();

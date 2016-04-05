@@ -26,8 +26,8 @@ myKeys.keydown = [];
 window.addEventListener("keydown",function(e){
 	console.log("keydown=" + e.keyCode);
 	if (e.keyCode != lastKey){
-		app.main.hp++;
-		app.main.totalhp++;
+		app.main.hp+= app.main.typeMult;
+		app.main.totalhp+= app.main.typeMult;
 	}
 	lastKey = e.keyCode;
 	myKeys.keydown[e.keyCode] = true;

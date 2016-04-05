@@ -19,13 +19,14 @@
     }
 	
 	#buttons{
-		width:960px;
+		width:850px;
 		display:block;
 		position:absolute;
 		left:0;
 		right:0;
 		margin-left: 55%;
 		margin-top: 10%;
+		
 	}
 	#code{
 		width:480px;
@@ -37,6 +38,12 @@
 		margin-left:27%;
 		margin-top: 5%;
 		color: green;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;  
+		-khtml-user-select: none;    
+		-moz-user-select: none;     
+		-ms-user-select: none;       
+		user-select: none;   
 	}
 	upgrade{
 	
@@ -44,12 +51,12 @@
 	button{
 		font-size: 20px;
 		background:none;
-		color: green;
+		color: lime;
 		border: none;
+		display: block;
 	}
 	button:hover{
 		background:green;
-		color: black;
 		display: block;
 	}
 	#sampleCode{
@@ -73,12 +80,16 @@
 	<p id="code">Begin Hack//:<br></p>
 	<section id="buttons">
 		<button id="finalHack" class="upgrade">>Final Hack 1,000,000</button>
+		
+		<button id="type1" class="upgrade">>Open CMD Prompt 10</button>
 
 		<button id="tick1" class="upgrade">>Run Script 10</button>
 
 		<button id="tick2" class="upgrade">>Setup Bot 50</button>
 
 		<button id="speed1" class="upgrade">>Increase RAM 10</button>
+		
+		<button id="speed2" class="upgrade">>Install Extra Processor 5,000</button>
 
 		<button id="security1" class="upgrade">>Go Incognito 50</button>
 		
