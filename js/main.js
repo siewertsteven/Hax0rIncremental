@@ -37,7 +37,7 @@ app.main = {
 	tickCountTop: 60,
 	tickMult: 1,
 	typeMult: 1,
-	cost:({increment1: 10, increment2: 50, increment3: 1000, increment4: 10000, speed1: 10, speed2: 5000, finalHack: 1, 
+	cost:({increment1: 10, increment2: 50, increment3: 1000, increment4: 10000, speed1: 10, speed2: 5000, finalHack: 100000, 
 	security1: 50, security2: 200, type1: 10,
 		
 	}),
@@ -113,7 +113,6 @@ app.main = {
 		if(this.gameState == this.GAMESTATE.paused){
 			this.gameState = this.GAMESTATE.loop;
 		}
-		console.log(this.gameState);
 		cancelAnimationFrame(this.animationID);
 		this.update();
 	},
@@ -292,11 +291,7 @@ app.main = {
 		if (this.gameState == this.GAMESTATE.loop){
 		this.time = parseInt((new Date().getTime()-this.startTime)/100);
 
-		if(this.createParticles == false){
-			
-			this.createParticles = true;
-		}
-		
+		//timing the ticks
 		if (this.time >= this.tickCountTop){
 			for (var i = 0; i< this.tickMult; i++){
 				this.tick();
@@ -313,6 +308,7 @@ app.main = {
 		this.tickCount++;
 		
 		}
+		//drawing the particle system and HUD
 		if (Math.floor(this.increment/10) > 500){this.pulsar.numParticles = 500}
 		else{this.pulsar.numParticles = Math.floor(this.increment/10);}
 		this.clear();
@@ -341,12 +337,11 @@ app.main = {
 		//show the total in binary
 		this.showBinary();
 		
-		
+		//code repeats when the end is reached
 		if(this.totalhp > this.code.length){
 			this.code = this.code + this.code
-			//codeLoop++;
 		}
-				
+		//shows more code when the player types, when they go past the limit it scrolls up
 		if (this.lasthp != this.totalhp){
 			for (var i = this.lasthp; i<this.totalhp; i++){ 
 				document.getElementById("code").textContent += this.code[i];
@@ -390,7 +385,7 @@ app.main = {
 			this.ctx.fillText("//////////CounterHack//////////", 400, 390);
 			this.ctx.restore();
 		}
-		
+		//winning state
 		if (this.gameState == this.GAMESTATE.win){
 			this.ctx.save();
 			this.ctx.globalAlpha = .5;
@@ -406,6 +401,7 @@ app.main = {
 			this.ctx.fillText (this.totalhp, this.WIDTH * .8, this.HEIGHT * .5 +  50);
 			this.ctx.restore();
 		}
+		//game over state
 		else if (this.gameState == this.GAMESTATE.gameOver){
 			this.ctx.save();
 			this.ctx.fillStyle = "black";
