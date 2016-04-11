@@ -11,7 +11,8 @@ app.sound = (function(){
 	var effectAudio = undefined;
 	var currentEffect = 0;
 	var currentDirection = 1;
-	var effectSounds = ["1.mp3","2.mp3","3.mp3","4.mp3","5.mp3","6.mp3","7.mp3","8.mp3"];
+	var effectSounds = ["1.wav", "2.wav", "3.wav"]
+	var gameOver = "gameOver.wav";
 	
 
 	function init(){
@@ -35,6 +36,11 @@ app.sound = (function(){
 			currentEffect += currentDirection;
 		}
 	}
+	function playGameOver(){
+		effectAudio.src = "media/" + gameOver;
+		effectAudio.play();
+	}
+	
 	function playBGAudio(){
 		bgAudio.play();
 	}
@@ -45,6 +51,7 @@ app.sound = (function(){
 		stopBGAudio: stopBGAudio,
 		playEffect: playEffect,
 		playBGAudio: playBGAudio,
+		playGameOver: playGameOver,
 	};
 		
 	// export a public interface to this module

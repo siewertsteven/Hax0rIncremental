@@ -3,15 +3,15 @@
 <head>
 	<meta charset="utf-8" />
 	<style>
-		canvas{border:1px solid gray;}
+		canvas{border:2px solid green; box-shadow: 0px 0px 5px 5px #003300}
 		#audioControls{display:none;}
 	</style>
-	<title>Hax0r Incremental</title>
+	<title>Hax0r</title>
 </head>
 <style>
 	body {
 	     width=100%;
-         background: RGB(10,0,20);
+         background: RGB(0,0,0);
          font-family: tahoma, verdana, sans serif;
 		 color:white;
       }
@@ -33,7 +33,7 @@
 		left:0;
 		right:0;
 		margin-left: 55%;
-		margin-top: 10%;
+		margin-top: 5%;
 		
 	}
 	#code{
@@ -45,7 +45,7 @@
 		right: 0;
 		margin-left:27%;
 		margin-top: 5%;
-		color: green;
+		color: lime;
 		-webkit-touch-callout: none;
 		-webkit-user-select: none;  
 		-khtml-user-select: none;    
@@ -70,6 +70,9 @@
 	#sampleCode{
 		display:none;
 	}
+	.hide{
+		display:none;
+	}
 	
 </style>
 
@@ -80,21 +83,27 @@
 	</canvas>
 	<p id="code">Begin Hack//:<br></p>
 	<section id="buttons">
-		<button id="finalHack" class="upgrade">>Final Hack 1,000,000</button>
+		<button id="finalHack" class="upgrade">>Final Hack 100,000</button>
 		
 		<button id="type1" class="upgrade">>Open CMD Prompt 10</button>
 
 		<button id="tick1" class="upgrade">>Run Script 10</button>
 
 		<button id="tick2" class="upgrade">>Setup Bot 50</button>
-
+		
+		<button id="tick3" class="upgrade">>Create Virus 1000</button>
+		
+		<button id="tick4" class="upgrade">>Run Giber.ish 10000</button>
+		
 		<button id="speed1" class="upgrade">>Increase RAM 10</button>
 		
-		<button id="speed2" class="upgrade">>Install Extra Processor 5,000</button>
+		<button id="speed2" class="upgrade">>Install Extra Processor 5000</button>
 
 		<button id="security1" class="upgrade">>Go Incognito 50</button>
 		
 		<button id="security2" class="upgrade">>Setup Proxy 200</button>
+		
+		<button id="lowerSecurity" class="upgrade">>Disable Firewall</button>
 		
 	</section>
 	<section id="audioControls">
@@ -106,7 +115,9 @@
 	<script src='js/utilities.js'></script>
 	<script src='js/loader.js'></script>
 	<script src='js/main.js'></script>
-	
+	<script src='js/sound.js'></script>
+	<script src='js/emitter.js'></script>
+	<img src='media/Sprite.png' id="sprite" class="hide">
 	
 	
 	<section id="sampleCode" >

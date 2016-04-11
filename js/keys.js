@@ -25,7 +25,6 @@ myKeys.keydown = [];
 // event listeners
 window.addEventListener("keydown",function(e){
 	if (app.main.gameState == app.main.GAMESTATE.loop){
-	console.log("keydown=" + e.keyCode);
 	if (e.keyCode != lastKey){
 		app.main.hp+= app.main.typeMult;
 		app.main.totalhp+= app.main.typeMult;
@@ -36,6 +35,5 @@ window.addEventListener("keydown",function(e){
 });
 	
 window.addEventListener("keyup",function(e){
-	console.log("keyup=" + e.keyCode);
 	myKeys.keydown[e.keyCode] = false;
 });
